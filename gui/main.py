@@ -22,14 +22,15 @@ def main():
     screen.onkey(tile.col_1, "1")
     screen.onkey(tile.col_2, "2")
     screen.onkey(tile.col_3, "3")
-
-    #turn thing
+    
 
     game_over = False
     while not game_over:
 
         screen.update()
         time.sleep(0.001)
+
+        # check situations
 
     screen.exitonclick()
 
