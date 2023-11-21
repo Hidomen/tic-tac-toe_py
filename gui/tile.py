@@ -4,6 +4,7 @@ from turtle import Turtle
 X_SYMBOL = "turtle"
 O_SYMBOL = "circle"
 
+POSITIONS = [(-200,200), (0,200), (200,200), (-200,0), (0,0), (200,0), (-200,-200), (0,-200), (200,-200)]
 
 
 class Tile(Turtle):
@@ -14,9 +15,8 @@ class Tile(Turtle):
         self.turn = "X"
         self.unturn = "O" 
 
-        positions = [(-200,200), (0,200), (200,200), (-200,0), (0,0), (200,0), (-200,-200), (0,-200), (200,-200)]
         # t = 200
-        for pos in positions:
+        for pos in POSITIONS:
             self.create_tile(pos)
 
 
@@ -148,4 +148,10 @@ class Tile(Turtle):
                 return True
             
             return False
+    
+
+    def reset(self):
+        self.tiles.clear()
+        self.__init__()
+
             

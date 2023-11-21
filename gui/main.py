@@ -18,25 +18,24 @@ RULES:
 
 winner = ""
 
-
 def main():
-    screen = Screen()
-    screen.bgcolor("black")
-    screen.setup(width=600, height=600)
-    screen.title("TIC-TAC-TOE")
-    screen.tracer(0)
-    
-    # start screen
-    user_input = screen.textinput("WELCOMER", WELCOMER)
-    while user_input.upper() not in ["START", "RULES"]:
-        user_input = screen.textinput("WELCOMER", WELCOMER)
+    first_time = False
 
-    if user_input.upper() == "RULES":
-        screen.textinput("RULES",RULES)
-    #     
+    screen,winnerboard,tile = setup()
+
     
-    table = Table()
-    tile = Tile()
+    if first_time:
+        # start screen
+        user_input = screen.textinput("WELCOMER", WELCOMER)
+        while user_input.upper() not in ["START", "RULES"]:
+            user_input = screen.textinput("WELCOMER", WELCOMER)
+
+        if user_input.upper() == "RULES":
+            screen.textinput("RULES",RULES)
+
+        # first_time = False
+        #     
+    
 
     screen.listen()
 
@@ -48,36 +47,61 @@ def main():
     screen.onkey(tile.col_2, "2")
     screen.onkey(tile.col_3, "3")
     
-
+    
     game_over = False
+    
     while not game_over:
+        
         screen.update()
 
-        # check situations
-        if not tile.is_any_left() and not tile.check_win(): # TIE
-            winner = "DRAW"
+        winner = check_game_over(tile)
+        if winner != False:
+            winnerboard.winscreen(winner) 
             game_over = True
-            screen.update()
+
+        
+        if game_over:
+        # end screen
+            screen.clear()
+            winnerboard.winscreen(winner)
+
             
-
-        # tile.row_check()
-        if tile.check_win():
-
-            game_over = True
-            screen.update()
-
-            if tile.return_turn() == "X": # O WON
-                winner = "O"
-            elif tile.return_turn() == "O": # X WON
-                winner = "X"
+    screen.exitonclick()
 
 
-# end screen
-    screen.clear()
-    winnerboard = WinnerBoard(winner)
+
+def setup():
+    screen = Screen()
+    screen.bgcolor("black")
+    screen.setup(width=600, height=600)
+    screen.title("TIC-TAC-TOE")
+    screen.tracer(0)
+
+    table = Table()
+
+    winnerboard = WinnerBoard()
+
+    tile = Tile()
+
+
+
+    return screen, winnerboard, tile
+
+
+def check_game_over(tile):
+    if not tile.is_any_left() and not tile.check_win(): # TIE
+        return "DRAW"
+        
+    if tile.check_win():
+        if tile.return_turn() == "X": # O WON
+            return "O"
+        elif tile.return_turn() == "O": # X WON
+            return "X"
+
+    return False
+
 
 
 #
-    screen.exitonclick()
 
 main()
