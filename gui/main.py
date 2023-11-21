@@ -19,23 +19,10 @@ RULES:
 winner = ""
 
 def main():
-    first_time = False
 
     screen,winnerboard,tile = setup()
 
-    
-    if first_time:
-        # start screen
-        user_input = screen.textinput("WELCOMER", WELCOMER)
-        while user_input.upper() not in ["START", "RULES"]:
-            user_input = screen.textinput("WELCOMER", WELCOMER)
-
-        if user_input.upper() == "RULES":
-            screen.textinput("RULES",RULES)
-
-        # first_time = False
-        #     
-    
+    start_text(screen)
 
     screen.listen()
 
@@ -65,9 +52,8 @@ def main():
             screen.clear()
             winnerboard.winscreen(winner)
 
-            
-    screen.exitonclick()
 
+    screen.exitonclick()
 
 
 def setup():
@@ -78,12 +64,8 @@ def setup():
     screen.tracer(0)
 
     table = Table()
-
     winnerboard = WinnerBoard()
-
     tile = Tile()
-
-
 
     return screen, winnerboard, tile
 
@@ -97,11 +79,16 @@ def check_game_over(tile):
             return "O"
         elif tile.return_turn() == "O": # X WON
             return "X"
-
     return False
 
 
+def start_text(screen):
+    user_input = screen.textinput("WELCOMER", WELCOMER)
 
-#
+    while user_input.upper() not in ["START", "RULES"]:
+        user_input = screen.textinput("WELCOMER", WELCOMER)
+
+    if user_input.upper() == "RULES":
+        screen.textinput("RULES",RULES)
 
 main()
