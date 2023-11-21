@@ -1,7 +1,8 @@
 from turtle import Screen
-from table import Table
+from table import Lines
 from tile import Tile
 from winnerboard import WinnerBoard
+import time
 
 WELCOMER = "Welcome the TIC-TAC-TOE: for start the game type START for learn to rules type RULES "
 
@@ -19,41 +20,47 @@ RULES:
 winner = ""
 
 def main():
+    score_x = 0
+    score_o = 0
+
 
     screen,winnerboard,tile = setup()
-
     start_text(screen)
 
-    screen.listen()
+    while True:
+        game_over = False
+        #
+        screen.listen()
 
-    screen.onkey(tile.highlight_row_1, "a")
-    screen.onkey(tile.highlight_row_2, "b")
-    screen.onkey(tile.highlight_row_3, "c")
+        screen.onkey(tile.highlight_row_1, "a")
+        screen.onkey(tile.highlight_row_2, "b")
+        screen.onkey(tile.highlight_row_3, "c")
 
-    screen.onkey(tile.col_1, "1")
-    screen.onkey(tile.col_2, "2")
-    screen.onkey(tile.col_3, "3")
-    
-    
-    game_over = False
-    
-    while not game_over:
-        
+        screen.onkey(tile.col_1, "1")
+        screen.onkey(tile.col_2, "2")
+        screen.onkey(tile.col_3, "3")
+        #
         screen.update()
 
         winner = check_game_over(tile)
         if winner != False:
-            winnerboard.winscreen(winner) 
+            winnerboard.winscreen(winner, score_x, score_o) 
+
+            if winner == "X":
+                score_x += 1
+            elif winner == "O":
+                score_o += 1
+
             game_over = True
 
         
         if game_over:
         # end screen
             screen.clear()
-            winnerboard.winscreen(winner)
-
-
-    screen.exitonclick()
+            winnerboard.winscreen(winner, score_x, score_o)
+            time.sleep(2) # 
+            screen.clear()
+            screen,winnerboard,tile = setup()
 
 
 def setup():
@@ -63,7 +70,7 @@ def setup():
     screen.title("TIC-TAC-TOE")
     screen.tracer(0)
 
-    table = Table()
+    lines = Lines()
     winnerboard = WinnerBoard()
     tile = Tile()
 
@@ -85,7 +92,7 @@ def check_game_over(tile):
 def start_text(screen):
     user_input = screen.textinput("WELCOMER", WELCOMER)
 
-    while user_input.upper() not in ["START", "RULES"]:
+    while user_input.upper() not in ["START", "RULES", "OK"]:
         user_input = screen.textinput("WELCOMER", WELCOMER)
 
     if user_input.upper() == "RULES":

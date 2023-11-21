@@ -2,7 +2,7 @@ from turtle import Turtle
 
 TABLE_SIZE = 600
 
-class Table(Turtle):
+class Lines(Turtle):
     def __init__(self):
         super().__init__()
 

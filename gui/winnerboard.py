@@ -1,5 +1,5 @@
 from turtle import Turtle
-
+from scores import Scores
 FONT = ("Courier", 12, "bold")
 
 
@@ -10,24 +10,13 @@ class WinnerBoard(Turtle):
         self.hideturtle()
         self.pu()
 
-        self.score_x = 0
-        self.score_o = 0
 
-
-    def score_up(self,winner):
-        if winner == "X":
-            self.score_x += 1
-
-        elif winner == "O":
-            self.score_o += 1
-
-
-    def winscreen(self, winner):
+    def winscreen(self, winner, score_x, score_o):
         if winner != "DRAW":
             text = f"PLAYER {winner} HAS WON THE GAME\nCONGRATULATIONS MY PAL"
-            self.score_up(winner)
         else:
             text = "FRIENDSHIP HAS WON THE GAME"
 
-        self.write(text, align="center", font=FONT)
-        # self.write(f"{text}\nX: {self.score_x}\nO: {self.score_o}", align="center", font=FONT)
+        # self.write(text, align="center", font=FONT)
+        self.write(f"{text}\nX: {score_x}\nO: {score_o}", align="center", font=FONT)
+
